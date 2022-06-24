@@ -24,8 +24,11 @@ public class UserService {
     }
 
     // Get user by id
-    public Optional<UserEntity> getUserById(Long id){
+    public Optional<UserEntity> getUserById(Long id) throws UserNotFound{
         Optional<UserEntity> userEntity = userRepository.findById(id);
+        if(!userEntity.isPresent()){
+            throw new UserNotFound("User with id " +id + " not found.");
+        }
         return userEntity;
     }
 
