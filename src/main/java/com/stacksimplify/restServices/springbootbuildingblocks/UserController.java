@@ -5,6 +5,7 @@ import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.http.HttpHeaders;
 import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
+import org.springframework.validation.annotation.Validated;
 import org.springframework.web.bind.annotation.DeleteMapping;
 import org.springframework.web.bind.annotation.GetMapping;
 import org.springframework.web.bind.annotation.PathVariable;
@@ -15,10 +16,13 @@ import org.springframework.web.bind.annotation.RestController;
 import org.springframework.web.server.ResponseStatusException;
 import org.springframework.web.util.UriComponentsBuilder;
 
+import javax.validation.Valid;
+import javax.validation.constraints.Min;
 import java.util.List;
 import java.util.Optional;
 
 @RestController
+@Validated
 public class UserController {
 
     @Autowired
@@ -31,7 +35,7 @@ public class UserController {
     }
 
     @PostMapping("/createUser")
-    public ResponseEntity<Void> createUser(@RequestBody UserEntity user, UriComponentsBuilder uriComponentsBuilder){
+    public ResponseEntity<Void> createUser(@Valid @RequestBody UserEntity user, UriComponentsBuilder uriComponentsBuilder){
         try {
             userService.createUser(user);
             // Return the location of the user that is created with that unique username in order to be checked
@@ -44,7 +48,7 @@ public class UserController {
     }
 
     @GetMapping("/users/{id}")
-    public Optional<UserEntity> getUserById(@PathVariable("id") Long id){
+    public Optional<UserEntity> getUserById(@PathVariable("id") @Min(1) Long id){
         // The path variable annotation is used to define paths starting from the same endpoint in order to differentiate between certain criterias
         // EX : /users/{id} -- get users by id while /users/{name} -- get users by name
         try {
@@ -74,7 +78,13 @@ public class UserController {
     }
 
     @GetMapping("/users/byusername/{username}")
-    public UserEntity getUserByUsername(@PathVariable("username") String username){
-        return userService.findByUsername(username);
+    public UserEntity getUserByUsername(@PathVariable("username") String username) throws UsernameNotFoundException {
+        UserEntity userEntity = userService.findByUsername(username);
+        if(userEntity == null){
+            throw new UsernameNotFoundException("User with username : " + username + " not found.");
+        }
+        else{
+            return userEntity;
+        }
     }
 }

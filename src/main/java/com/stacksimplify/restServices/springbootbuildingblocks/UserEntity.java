@@ -15,6 +15,8 @@ import javax.persistence.Entity;
 import javax.persistence.GeneratedValue;
 import javax.persistence.Id;
 import javax.persistence.Table;
+import javax.validation.constraints.NotEmpty;
+import javax.validation.constraints.Size;
 
 // JPA-- reprezentare in memorie (la un refresh sau restart al aplicatiei, toate datele sunt sterse)
 // prin urmare se utilizeaza DB H2 -- pentru persistenta datelor in momentul restartarii, inserari de date la runtime etc.
@@ -40,7 +42,7 @@ public class UserEntity
   @Id // responsabila pentru a marca cheia primara
   @GeneratedValue // putem defini strategia de generare a cheii primare (din 4 posibile)
   private Long id;
-
+  @NotEmpty(message="Username is mandatory. Please provide an username.")
   @Column(name = "USER_NAME", length = 50, nullable = false, unique = true) // defineste modul in
                                                                             // care este stocata
                                                                             // coloana la momentul
@@ -49,7 +51,7 @@ public class UserEntity
   // nullable = false --- nu pot fi NULL values
   // unique -- poate impune restrictie de unicitate a valorilor
   private String username;
-
+  @Size(min = 2, message = "Firstname should have at least 2 characters.")
   @Column(name = "FIRST_NAME", length = 50, nullable = false)
   private String firstName;
   @Column(name = "LAST_NAME", length = 50, nullable = false)
