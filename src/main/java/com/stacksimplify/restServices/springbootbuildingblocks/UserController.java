@@ -12,6 +12,7 @@ import org.springframework.web.bind.annotation.PathVariable;
 import org.springframework.web.bind.annotation.PostMapping;
 import org.springframework.web.bind.annotation.PutMapping;
 import org.springframework.web.bind.annotation.RequestBody;
+import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RestController;
 import org.springframework.web.server.ResponseStatusException;
 import org.springframework.web.util.UriComponentsBuilder;
@@ -23,18 +24,19 @@ import java.util.Optional;
 
 @RestController
 @Validated
+@RequestMapping(value = "/users") // Where all requests should default regarding methods in this controller
 public class UserController {
 
     @Autowired
     UserService userService;
 
-    @GetMapping("/users")
+    @GetMapping
     public List<UserEntity> getUsers()
     {
         return userService.getAllUsers();
     }
 
-    @PostMapping("/createUser")
+    @PostMapping
     public ResponseEntity<Void> createUser(@Valid @RequestBody UserEntity user, UriComponentsBuilder uriComponentsBuilder){
         try {
             userService.createUser(user);
@@ -47,7 +49,7 @@ public class UserController {
         }
     }
 
-    @GetMapping("/users/{id}")
+    @GetMapping("/{id}")
     public Optional<UserEntity> getUserById(@PathVariable("id") @Min(1) Long id){
         // The path variable annotation is used to define paths starting from the same endpoint in order to differentiate between certain criterias
         // EX : /users/{id} -- get users by id while /users/{name} -- get users by name
@@ -58,7 +60,7 @@ public class UserController {
         }
     }
 
-    @PutMapping("/users/{id}")
+    @PutMapping("/{id}")
     public UserEntity updateUserById(@PathVariable("id") Long id, @RequestBody UserEntity userEntity){
         try {
             return userService.updateUserById(id,userEntity);
@@ -67,7 +69,7 @@ public class UserController {
         }
     }
 
-    @DeleteMapping("/users/{id}")
+    @DeleteMapping("/{id}")
     public void deleteUserById(@PathVariable("id") Long id){
         try {
             userService.deleteUserById(id);
@@ -77,7 +79,7 @@ public class UserController {
 
     }
 
-    @GetMapping("/users/byusername/{username}")
+    @GetMapping("/byusername/{username}")
     public UserEntity getUserByUsername(@PathVariable("username") String username) throws UsernameNotFoundException {
         UserEntity userEntity = userService.findByUsername(username);
         if(userEntity == null){

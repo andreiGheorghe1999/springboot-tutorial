@@ -10,13 +10,17 @@
  */
 package com.stacksimplify.restServices.springbootbuildingblocks;
 
+import org.hibernate.criterion.Order;
+
 import javax.persistence.Column;
 import javax.persistence.Entity;
 import javax.persistence.GeneratedValue;
 import javax.persistence.Id;
+import javax.persistence.OneToMany;
 import javax.persistence.Table;
 import javax.validation.constraints.NotEmpty;
 import javax.validation.constraints.Size;
+import java.util.List;
 
 // JPA-- reprezentare in memorie (la un refresh sau restart al aplicatiei, toate datele sunt sterse)
 // prin urmare se utilizeaza DB H2 -- pentru persistenta datelor in momentul restartarii, inserari de date la runtime etc.
@@ -63,6 +67,18 @@ public class UserEntity
 
   @Column(name = "USER_SSN", length = 50, nullable = false, unique = true)
   private String ssn;
+
+
+  @OneToMany(mappedBy = "user")
+  private List<OrderEntity> orders;
+
+  public List<OrderEntity> getOrders() {
+    return orders;
+  }
+
+  public void setOrders(List<OrderEntity> orders) {
+    this.orders = orders;
+  }
 
   // No argument constructor
   public UserEntity()
