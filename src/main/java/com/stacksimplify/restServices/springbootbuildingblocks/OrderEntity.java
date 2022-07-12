@@ -1,6 +1,7 @@
 package com.stacksimplify.restServices.springbootbuildingblocks;
 
 import com.fasterxml.jackson.annotation.JsonIgnore;
+import org.springframework.hateoas.RepresentationModel;
 
 import javax.persistence.Entity;
 import javax.persistence.FetchType;
@@ -11,7 +12,7 @@ import javax.persistence.Table;
 
 @Entity
 @Table(name = "orders")
-public class OrderEntity {
+public class OrderEntity extends RepresentationModel {
 
     @Id // responsabila pentru a marca cheia primara
     @GeneratedValue // putem defini strategia de generare a cheii primare (din 4 posibile)

@@ -41,7 +41,7 @@ public class UserService {
     public UserEntity updateUserById(Long id, UserEntity newUserContent) throws UserNotFound{
         Optional<UserEntity> foundEntity = userRepository.findById(id);
         if(foundEntity.isPresent()){
-            newUserContent.setId(id);
+            newUserContent.setUserId(id);
         }
         else{
             throw new UserNotFound("User with id : " + id + " not found.");

@@ -42,7 +42,7 @@ public class UserController {
             userService.createUser(user);
             // Return the location of the user that is created with that unique username in order to be checked
             HttpHeaders headers = new HttpHeaders();
-            headers.setLocation(uriComponentsBuilder.path("/users/{id}").buildAndExpand(user.getId()).toUri());
+            headers.setLocation(uriComponentsBuilder.path("/users/{id}").buildAndExpand(user.getUserId()).toUri());
             return new ResponseEntity<Void>(headers,HttpStatus.CREATED);
         } catch (UserExists e) {
             throw new ResponseStatusException(HttpStatus.CONFLICT, e.getMessage());
