@@ -15,6 +15,7 @@ package com.stacksimplify.restServices.springbootbuildingblocks;
 import com.fasterxml.jackson.annotation.JsonFilter;
 import com.fasterxml.jackson.annotation.JsonIgnore;
 import com.fasterxml.jackson.annotation.JsonIgnoreProperties;
+import com.fasterxml.jackson.annotation.JsonView;
 import org.springframework.hateoas.RepresentationModel;
 import javax.persistence.Column;
 import javax.persistence.Entity;
@@ -47,10 +48,11 @@ import java.util.List;
 // care ruleaza in acelasi timp,
 // dar au acelasi nume
 //@JsonIgnoreProperties({"firstName", "lastName"}) --- Static Filtering
-@JsonFilter(value = "userFilter") // -- Dynamic Filtering
+//@JsonFilter(value = "userFilter")  --- Dynamic Filtering using MappingJacksonValue
 public class UserEntity extends RepresentationModel {
     @Id // responsabila pentru a marca cheia primara
     @GeneratedValue // putem defini strategia de generare a cheii primare (din 4 posibile)
+    @JsonView(Views.External.class)
     private Long userId;
     @NotEmpty(message = "Username is mandatory. Please provide an username.")
     @Column(name = "USER_NAME", length = 50, nullable = false, unique = true) // defineste modul in
@@ -60,24 +62,31 @@ public class UserEntity extends RepresentationModel {
     // length = 50 ; --- restrictie de maxim 50 caractere
     // nullable = false --- nu pot fi NULL values
     // unique -- poate impune restrictie de unicitate a valorilor
+    @JsonView(Views.External.class)
     private String username;
     @Size(min = 2, message = "Firstname should have at least 2 characters.")
     @Column(name = "FIRST_NAME", length = 50, nullable = false)
+    @JsonView(Views.External.class)
     private String firstName;
     @Column(name = "LAST_NAME", length = 50, nullable = false)
+    @JsonView(Views.External.class)
     private String lastName;
     @Column(name = "EMAIL_ADDRESS", length = 50, nullable = false)
+    @JsonView(Views.External.class)
     private String email;
     @Column(name = "USER_ROLE", length = 50, nullable = false)
+    @JsonView(Views.Internal.class)
     private String role;
 
 
     @Column(name = "USER_SSN", length = 50, nullable = false, unique = true)
     //@JsonIgnore -- static filtering
+    @JsonView(Views.Internal.class)
     private String ssn;
 
 
     @OneToMany(mappedBy = "user")
+    @JsonView(Views.Internal.class)
     private List<OrderEntity> orders;
 
     public List<OrderEntity> getOrders() {

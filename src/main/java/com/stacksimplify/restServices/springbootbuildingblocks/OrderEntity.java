@@ -1,6 +1,7 @@
 package com.stacksimplify.restServices.springbootbuildingblocks;
 
 import com.fasterxml.jackson.annotation.JsonIgnore;
+import com.fasterxml.jackson.annotation.JsonView;
 import org.springframework.hateoas.RepresentationModel;
 
 import javax.persistence.Entity;
@@ -16,8 +17,9 @@ public class OrderEntity extends RepresentationModel {
 
     @Id // responsabila pentru a marca cheia primara
     @GeneratedValue // putem defini strategia de generare a cheii primare (din 4 posibile)
+    @JsonView(Views.Internal.class)
     private Long orderId;
-
+    @JsonView(Views.Internal.class)
     private String orderDescription;
 
     @JsonIgnore
