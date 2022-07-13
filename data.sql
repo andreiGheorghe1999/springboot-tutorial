@@ -7,3 +7,4 @@ insert into orders values( 2003, 'order13', 101);
 insert into orders values( 2004, 'order21', 102);
 insert into orders values( 2005, 'order22', 102);
 insert into orders values( 2006, 'order31', 103);
+insert into employees values(103, 'dmark', 'SCMP', '20/06/2022 07:35:455', '20/06/2022 15:35:455', '10000', '20/06/2021 15:35:455');

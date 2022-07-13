@@ -11,4 +11,16 @@ public class Views {
     public static class Internal extends External{
 
     }
+
+    public static class Normal{
+
+    }
+
+    public static class Manager extends Normal{
+
+    }
+
+    public static class HR extends Normal{
+
+    }
 }
