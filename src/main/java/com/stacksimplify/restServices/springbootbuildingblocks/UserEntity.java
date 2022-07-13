@@ -12,6 +12,7 @@
 package com.stacksimplify.restServices.springbootbuildingblocks;
 
 
+import com.fasterxml.jackson.annotation.JsonFilter;
 import com.fasterxml.jackson.annotation.JsonIgnore;
 import com.fasterxml.jackson.annotation.JsonIgnoreProperties;
 import org.springframework.hateoas.RepresentationModel;
@@ -45,7 +46,8 @@ import java.util.List;
 // acest parametru este responsabil pentru diferentierea a 2 tabele din 2 aplicatii diferite
 // care ruleaza in acelasi timp,
 // dar au acelasi nume
-@JsonIgnoreProperties({"firstName", "lastName"})
+//@JsonIgnoreProperties({"firstName", "lastName"}) --- Static Filtering
+@JsonFilter(value = "userFilter") // -- Dynamic Filtering
 public class UserEntity extends RepresentationModel {
     @Id // responsabila pentru a marca cheia primara
     @GeneratedValue // putem defini strategia de generare a cheii primare (din 4 posibile)
@@ -71,7 +73,7 @@ public class UserEntity extends RepresentationModel {
 
 
     @Column(name = "USER_SSN", length = 50, nullable = false, unique = true)
-    @JsonIgnore
+    //@JsonIgnore -- static filtering
     private String ssn;
 
 
