@@ -89,6 +89,17 @@ public class UserEntity extends RepresentationModel {
     @JsonView(Views.Internal.class)
     private List<OrderEntity> orders;
 
+    @Column(name = "ADDRESS")
+    private String address;
+
+    public String getAddress() {
+        return address;
+    }
+
+    public void setAddress(String address) {
+        this.address = address;
+    }
+
     public List<OrderEntity> getOrders() {
         return orders;
     }
@@ -119,7 +130,8 @@ public class UserEntity extends RepresentationModel {
                       String lastName,
                       String email,
                       String role,
-                      String ssn) {
+                      String ssn,
+                      String address) {
         super();
         this.userId = id;
         this.username = username;
@@ -128,6 +140,7 @@ public class UserEntity extends RepresentationModel {
         this.email = email;
         this.role = role;
         this.ssn = ssn;
+        this.address = address;
     }
 
     /*
@@ -150,6 +163,8 @@ public class UserEntity extends RepresentationModel {
                 + role
                 + ", ssn="
                 + ssn
+                +", address="
+                + address
                 + "]";
     }
 
