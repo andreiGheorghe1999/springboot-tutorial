@@ -1,9 +1,9 @@
 package com.stacksimplify.restServices.springbootbuildingblocks;
 
 
-import io.swagger.annotations.Api;
-import io.swagger.annotations.ApiOperation;
-import io.swagger.annotations.ApiParam;
+//import io.swagger.annotations.Api;
+//import io.swagger.annotations.ApiOperation;
+//import io.swagger.annotations.ApiParam;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.http.HttpHeaders;
 import org.springframework.http.HttpStatus;
@@ -29,22 +29,22 @@ import java.util.Optional;
 @RestController
 @Validated
 @RequestMapping(value = "/users") // Where all requests should default regarding methods in this controller
-@Api(tags = "User Management RESTful Services", value = "UserController")
+//@Api(tags = "User Management RESTful Services", value = "UserController")
 public class UserController {
 
     @Autowired
     UserService userService;
 
     @GetMapping(produces = MediaType.APPLICATION_JSON_VALUE)
-    @ApiOperation(value = "Retrieves all users")
+    //@ApiOperation(value = "Retrieves all users")
     public List<UserEntity> getUsers() {
         return userService.getAllUsers();
     }
 
     @PostMapping(produces = MediaType.APPLICATION_JSON_VALUE)
-    @ApiOperation(value = "Create a new user")
+    //@ApiOperation(value = "Create a new user")
 
-    public ResponseEntity<Void> createUser(@ApiParam("User information for a new user to be created.") @Valid @RequestBody UserEntity user, UriComponentsBuilder uriComponentsBuilder) {
+    public ResponseEntity<Void> createUser(/*@ApiParam("User information for a new user to be created.")*/ @Valid @RequestBody UserEntity user, UriComponentsBuilder uriComponentsBuilder) {
         try {
             userService.createUser(user);
             // Return the location of the user that is created with that unique username in order to be checked

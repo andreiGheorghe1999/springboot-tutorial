@@ -16,8 +16,8 @@ import com.fasterxml.jackson.annotation.JsonFilter;
 import com.fasterxml.jackson.annotation.JsonIgnore;
 import com.fasterxml.jackson.annotation.JsonIgnoreProperties;
 import com.fasterxml.jackson.annotation.JsonView;
-import io.swagger.annotations.ApiModel;
-import io.swagger.annotations.ApiModelProperty;
+//import io.swagger.annotations.ApiModel;
+//import io.swagger.annotations.ApiModelProperty;
 import org.springframework.hateoas.RepresentationModel;
 import javax.persistence.Column;
 import javax.persistence.Entity;
@@ -39,7 +39,7 @@ import java.util.List;
  *         1.8 Description:
  */
 
-@ApiModel(description = "This model is to create an user")
+//@ApiModel(description = "This model is to create an user")
 @Entity // notatie utilizata cu scopul de reprezentare a fiecarei instante sub forma tabelara
 // (mapare sub forma tabelara)
 // Numele entitatii by default este asociat cu numele clasei, insa aceasta se poate
@@ -57,7 +57,7 @@ public class UserEntity extends RepresentationModel {
     @Id // responsabila pentru a marca cheia primara
     @GeneratedValue // putem defini strategia de generare a cheii primare (din 4 posibile)
     @JsonView(Views.External.class)
-    @ApiModelProperty(notes = "username of user", required = false, position = 2)
+    //@ApiModelProperty(notes = "username of user", required = false, position = 2)
     private Long userId;
     @NotEmpty(message = "Username is mandatory. Please provide an username.")
     @Column(name = "USER_NAME", length = 50, nullable = false, unique = true) // defineste modul in
@@ -72,7 +72,7 @@ public class UserEntity extends RepresentationModel {
     @Size(min = 2, message = "Firstname should have at least 2 characters.")
     @Column(name = "FIRST_NAME", length = 50, nullable = false)
     @JsonView(Views.External.class)
-    @ApiModelProperty(notes = "First name of the User.", example = "Kalyan", required = false, position = 3)
+    //@ApiModelProperty(notes = "First name of the User.", example = "Kalyan", required = false, position = 3)
     private String firstName;
     @Column(name = "LAST_NAME", length = 50, nullable = false)
     @JsonView(Views.External.class)
@@ -88,7 +88,7 @@ public class UserEntity extends RepresentationModel {
     @Column(name = "USER_SSN", length = 50, nullable = false, unique = true)
     //@JsonIgnore -- static filtering
     @JsonView(Views.Internal.class)
-    @ApiModelProperty(notes = "SSN of the User.", example = "SSN1010", required = true, position = 4)
+    //@ApiModelProperty(notes = "SSN of the User.", example = "SSN1010", required = true, position = 4)
     private String ssn;
 
 

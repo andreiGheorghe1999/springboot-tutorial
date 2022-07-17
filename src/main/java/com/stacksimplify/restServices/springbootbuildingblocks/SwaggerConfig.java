@@ -1,7 +1,7 @@
 package com.stacksimplify.restServices.springbootbuildingblocks;
 
 
-import org.springframework.context.annotation.Bean;
+/*import org.springframework.context.annotation.Bean;
 import org.springframework.context.annotation.Configuration;
 import org.springframework.context.annotation.Import;
 import springfox.bean.validators.configuration.BeanValidatorPluginsConfiguration;
@@ -39,4 +39,4 @@ public class SwaggerConfig {
                 .licenseUrl("https://userManagement/license.html")
                 .build();
     }
-}
+}*/
