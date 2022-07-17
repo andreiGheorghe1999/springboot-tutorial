@@ -1,9 +1,13 @@
 package com.stacksimplify.restServices.springbootbuildingblocks;
 
 
+import io.swagger.annotations.Api;
+import io.swagger.annotations.ApiOperation;
+import io.swagger.annotations.ApiParam;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.http.HttpHeaders;
 import org.springframework.http.HttpStatus;
+import org.springframework.http.MediaType;
 import org.springframework.http.ResponseEntity;
 import org.springframework.validation.annotation.Validated;
 import org.springframework.web.bind.annotation.DeleteMapping;
@@ -25,32 +29,36 @@ import java.util.Optional;
 @RestController
 @Validated
 @RequestMapping(value = "/users") // Where all requests should default regarding methods in this controller
+@Api(tags = "User Management RESTful Services", value = "UserController")
 public class UserController {
 
     @Autowired
     UserService userService;
 
-    @GetMapping
-    public List<UserEntity> getUsers()
-    {
+    @GetMapping(produces = MediaType.APPLICATION_JSON_VALUE)
+    @ApiOperation(value = "Retrieves all users")
+    public List<UserEntity> getUsers() {
         return userService.getAllUsers();
     }
 
-    @PostMapping
-    public ResponseEntity<Void> createUser(@Valid @RequestBody UserEntity user, UriComponentsBuilder uriComponentsBuilder){
+    @PostMapping(produces = MediaType.APPLICATION_JSON_VALUE)
+    @ApiOperation(value = "Create a new user")
+
+    public ResponseEntity<Void> createUser(@ApiParam("User information for a new user to be created.") @Valid @RequestBody UserEntity user, UriComponentsBuilder uriComponentsBuilder) {
         try {
             userService.createUser(user);
             // Return the location of the user that is created with that unique username in order to be checked
             HttpHeaders headers = new HttpHeaders();
             headers.setLocation(uriComponentsBuilder.path("/users/{id}").buildAndExpand(user.getUserId()).toUri());
-            return new ResponseEntity<Void>(headers,HttpStatus.CREATED);
+            return new ResponseEntity<Void>(headers, HttpStatus.CREATED);
         } catch (UserExists e) {
             throw new ResponseStatusException(HttpStatus.CONFLICT, e.getMessage());
         }
     }
 
     @GetMapping("/{id}")
-    public Optional<UserEntity> getUserById(@PathVariable("id") @Min(1) Long id){
+
+    public Optional<UserEntity> getUserById(@PathVariable("id") @Min(1) Long id) {
         // The path variable annotation is used to define paths starting from the same endpoint in order to differentiate between certain criterias
         // EX : /users/{id} -- get users by id while /users/{name} -- get users by name
         try {
@@ -61,16 +69,16 @@ public class UserController {
     }
 
     @PutMapping("/{id}")
-    public UserEntity updateUserById(@PathVariable("id") Long id, @RequestBody UserEntity userEntity){
+    public UserEntity updateUserById(@PathVariable("id") Long id, @RequestBody UserEntity userEntity) {
         try {
-            return userService.updateUserById(id,userEntity);
+            return userService.updateUserById(id, userEntity);
         } catch (UserNotFound e) {
             throw new ResponseStatusException(HttpStatus.BAD_REQUEST, e.getMessage());
         }
     }
 
     @DeleteMapping("/{id}")
-    public void deleteUserById(@PathVariable("id") Long id){
+    public void deleteUserById(@PathVariable("id") Long id) {
         try {
             userService.deleteUserById(id);
         } catch (UserNotFound e) {
@@ -82,10 +90,9 @@ public class UserController {
     @GetMapping("/byusername/{username}")
     public UserEntity getUserByUsername(@PathVariable("username") String username) throws UsernameNotFoundException {
         UserEntity userEntity = userService.findByUsername(username);
-        if(userEntity == null){
+        if (userEntity == null) {
             throw new UsernameNotFoundException("User with username : " + username + " not found.");
-        }
-        else{
+        } else {
             return userEntity;
         }
     }
